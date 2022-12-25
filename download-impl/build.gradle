@@ -1,0 +1,85 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group 'net.deechael'
+version '1.00.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.jetbrains:annotations:23.1.0'
+    implementation project(':download-api')
+
+    testImplementation("com.squareup.okhttp3:okhttp:4.10.0")
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = rootProject.group
+            artifactId = 'download-impl'
+            version = rootProject.version
+
+            pom {
+                name = 'download-impl'
+                description = 'Download API implementation'
+                url = 'https://github.com/GedStudio/download'
+                licenses {
+                    license {
+                        name = 'GNU General Public License v3.0'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'deechael'
+                        name = 'DeeChael'
+                        email = 'DeeChael@outlook.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/GedStudio/download.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:GedStudio/download.git'
+                    url = 'https://github.com/GedStudio/download'
+                }
+            }
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            credentials {
+                username = maven_username
+                password = maven_password
+            }
+            name = 'deechael'
+            url = 'https://maven.deechael.net/repository/maven-releases/'
+        }
+        mavenLocal()
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications.maven
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
