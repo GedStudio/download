@@ -56,9 +56,9 @@ public class Example {
         Preparation preparation = Download.prepare(); // Prepare for downloading
         preparation.url("https://xxxxxxx.com/xxx.png") // set download source
                 .destination(new File("xxx.png")) // set destination file
-                .header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36") // Add header
-                .cookie("xxxxxxx.com", "auth", "token xxxxxxxxxx") // Add cookie
-                .proxyHttp("127.0.0.1", 1080) // Add http proxy
+                .header(/* Key */ "user-agent", /* Value */ "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36") // Add header
+                .cookie(/* Domain */ "xxxxxxx.com", /* Key */ "auth", /* Value */ "token xxxxxxxxxx") // Add cookie
+                .proxyHttp(/* Host */ "127.0.0.1", /* Port */ 1080) // Add http proxy
                 .clips(4); // Use 4 threads to download
         Download download = preparation.download(); // Try to create download task
         download.start(); // Start downloading
