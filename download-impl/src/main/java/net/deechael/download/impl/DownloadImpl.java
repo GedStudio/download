@@ -133,10 +133,7 @@ public class DownloadImpl implements Download {
     @Override
     public void start() {
         this.startAsync();
-        try {
-            this.threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
-        } catch (InterruptedException ignored) {
-        }
+        this.await();
     }
 
     @Override
@@ -144,6 +141,16 @@ public class DownloadImpl implements Download {
         Util.initFile(this.destination, this.size);
         this.clips.forEach(Clip::start);
         threadPool.shutdown();
+    }
+
+    @Override
+    public void await() {
+        if (this.ended())
+            return;
+        try {
+            this.threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+        } catch (InterruptedException ignored) {
+        }
     }
 
     @Override

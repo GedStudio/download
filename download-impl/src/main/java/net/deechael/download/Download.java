@@ -44,6 +44,11 @@ public interface Download {
     void startAsync();
 
     /**
+     * Wait for end while using async downloading
+     */
+    void await();
+
+    /**
      * The destination to save the file
      * @return a file path not a directory path
      */
